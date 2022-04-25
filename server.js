@@ -1,12 +1,25 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const knex = require('knex');
+const { response } = require('express');
 
+const db = knex({
+    client: 'pg',
+    connection: {
+      host : '127.0.0.1',
+      port : 5432,
+      user : '', //add your username
+      password : '', //add your password
+      database : 'smart-brain'
+    }
+});
 
 const app = express();
 
 app.use(bodyParser.json());
 app.use(cors());
+
 const database = {
     users: [
         {
@@ -42,29 +55,28 @@ app.post('/signin', (req, res) => {
 
 app.post('/register', (req, res) => {
     const { email, name, password} = req.body;
-    database.users.push({
-        id: '125',
+    db('users')
+    .returning('*')
+    .insert({
+        email: email,
         name: name,
-        email: email, 
-        password: password,
-        entries: 0,
         joined: new Date()
     })
-    res.json(database.users[database.users.length - 1]);
+        .then(user => {
+            res.json(user[0]);
+    })
+    .catch(err => res.status(400).json('unable to register'));
 })
 
 app.get('/profile/:id', (req, res) => {
     const { id } = req.params;
-    let found = false;
-    database.users.forEach(user => {
-        if (user.id === id) {
-            found = true;
-            return res.json(user);
-        }
+    db.select('*').from('users').where({id})
+    .then(user => {
+        res.json(user[0]);
     })
-    if (!found) {
-        res.status(400).json('not found');
-    }
+ //   if (!found) {
+ //       res.status(400).json('not found');
+ //   }
 })
 
 app.put('/image', (req, res) => {
@@ -82,6 +94,6 @@ app.put('/image', (req, res) => {
     }
 })
 
-app.listen(3001, ()=> {
-    console.log('app is running in port 3001');
+app.listen(3000, ()=> {
+    console.log('app is running in port 3000');
 })
