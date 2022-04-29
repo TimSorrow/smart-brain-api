@@ -15,10 +15,10 @@ const { database } = require('pg/lib/defaults');
 const db = knex({
     client: 'pg',
     connection: {
-      host : '127.0.0.1',
-      port : 5432,
-      user : 'tim', //add your username
-      password : '12345', //add your password
+      host : 'postgresql-clean-98509',
+      port : process.env.PORT,
+      user : 'tim', 
+      password : '',
       database : 'smart-brain'
     }
 });
