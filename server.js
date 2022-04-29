@@ -15,11 +15,8 @@ const { database } = require('pg/lib/defaults');
 const db = knex({
     client: 'pg',
     connection: {
-      host : 'postgresql-clean-98509',
-      port : process.env.PORT,
-      user : 'tim', 
-      password : '',
-      database : 'smart-brain'
+      host : process.env.DATABASE_URL,
+      ssl: true
     }
 });
 
