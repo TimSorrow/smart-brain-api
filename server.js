@@ -17,8 +17,8 @@ const db = knex({
     connection: {
       host : '127.0.0.1',
       port : 5432,
-      user : '', //add your username
-      password : '', //add your password
+      user : 'tim', //add your username
+      password : '12345', //add your password
       database : 'smart-brain'
     }
 });
@@ -35,6 +35,6 @@ app.get('/profile', profile.handleProfileGet(db))
 app.put('/image', image.handleImage(db))
 app.post('/imageurl', image.handleApiCall)
 
-app.listen(3000, ()=> {
-    console.log('app is running in port 3000');
+app.listen(process.env.PORT || 3000, ()=> {
+    console.log('app is running in port ${process.env.PORT}');
 })
