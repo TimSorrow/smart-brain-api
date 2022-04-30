@@ -28,7 +28,7 @@ app.use(cors());
 app.get('/db', async (req, res) => {
   try {
     const client = await pool.connect();
-    const result = await client.query('SELECT * FROM test_table');
+    const result = await client.query('SELECT * FROM users);
     const results = { 'results': (result) ? result.rows : null};
     res.render('pages/db', results );
     client.release();
@@ -37,7 +37,6 @@ app.get('/db', async (req, res) => {
     res.send("Error " + err);
   }
 })
-
 app.post('/signin', signin.handleSignin(db, bcrypt))
 app.post('/register', register.handleRegister(db, bcrypt))
 app.get('/profile', profile.handleProfileGet(db))
