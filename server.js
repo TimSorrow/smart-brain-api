@@ -9,20 +9,23 @@ const signin = require('./controllers/signin');
 const profile = require('./controllers/profile');
 const image = require('./controllers/image');
 const { ssl } = require('pg/lib/defaults');
+const parse = require("pg-connection-string").parse;
 
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;
 
+const pgconfig = parse(process.env.DATABASE_URL);
+pgconfig.ssl = { rejectUnauthorized: false };
+
 const db = knex({
 	// connect to your own database here:
 	client: 'pg',
-	connection:  {
-		connectionString : process.env.DATABASE_URL,
-		ssl: false
-	  }
+	connection: pgconfig
   });
 
 const app = express();
+
+module.exports = db;
 
 app.use(cors())
 app.use(express.json()); 
