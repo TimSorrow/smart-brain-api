@@ -14,11 +14,7 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;
 const db = knex({
 	// connect to your own database here:
 	client: 'pg',
-	connection: {
-		connectionString: process.env.DATABASE_URL,
-		port: process.env.PORT,
-		ssl: true
-	}
+	connection: process.env.DATABASE_URL
   });
 
 const app = express();
