@@ -8,19 +8,18 @@ const register = require('./controllers/register');
 const signin = require('./controllers/signin');
 const profile = require('./controllers/profile');
 const image = require('./controllers/image');
-const { ssl } = require('pg/lib/defaults');
-const parse = require("pg-connection-string").parse;
-
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;
-
-const pgconfig = parse(process.env.DATABASE_URL);
-pgconfig.ssl = { rejectUnauthorized: false };
 
 const db = knex({
 	// connect to your own database here:
 	client: 'pg',
-	connection: pgconfig
+	connection: {
+		connectionString: process.env.DATABASE_URL,
+		ssl: {
+			rejectUnauthorized: false,
+		},
+	},
   });
 
 const app = express();
@@ -39,5 +38,3 @@ app.post('/imageurl', (req, res) => { image.handleApiCall(req, res)})
 app.listen(process.env.PORT || 3000, ()=> {
   console.log(`app is running on port ${process.env.PORT}`);
 })
-
-module.exports = db;
