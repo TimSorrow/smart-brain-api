@@ -15,8 +15,10 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;
 const db = knex({
 	// connect to your own database here:
 	client: 'pg',
-	connection: HEROKU_POSTGRESQL_COLOR_URL,
-	ssl: false
+	connection:  {
+		connectionString : process.env.DATABASE_URL,
+		ssl: false
+	  }
   });
 
 const app = express();
