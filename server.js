@@ -10,7 +10,7 @@ const profile = require('./controllers/profile');
 const image = require('./controllers/image');
 const { ssl } = require('pg/lib/defaults');
 
-process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;
+//process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;
 
 const db = knex({
 	// connect to your own database here:
