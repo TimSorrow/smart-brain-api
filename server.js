@@ -4,6 +4,7 @@ const bcrypt = require('bcrypt-nodejs');
 const cors = require('cors');
 const knex = require('knex');
 const { db } = require('pg');
+const { parse } = require('pg-connection-string')
 
 
 const register = require('./controllers/register');
@@ -13,16 +14,24 @@ const image = require('./controllers/image');
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;
 
-const db = knex({
+const config = parse(process.env.DATABASE_URL)
+
+config.ssl = {
+	rejectUnauthorized: false
+  }
+
+const db = new Pool(config)
+
+//const db = knex({
 	// connect to your own database here:
-	client: 'pg',
-	connection: {
-		connectionString: process.env.DATABASE_URL,
-		ssl: {
-			rejectUnauthorized: false,
-		},
-	},
-  });
+//	client: 'pg',
+//	connection: {
+//		connectionString: process.env.DATABASE_URL,
+//		ssl: {
+//			rejectUnauthorized: false,
+//		},
+//	},
+//  });
 
 const app = express();
 
