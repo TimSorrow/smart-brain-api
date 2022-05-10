@@ -4,6 +4,4 @@ Need to add username and password to connect to database
 
 Some server port conectivity issues, trying to figure out
 
-An issue with heroku PSQL
-
-Will try to downgrade packages. 
+It was PSQL Database issue. Deleleted all tables and created new ones.
